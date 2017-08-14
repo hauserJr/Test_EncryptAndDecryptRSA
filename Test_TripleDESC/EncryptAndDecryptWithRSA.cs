@@ -35,7 +35,6 @@ public class EncryptAndDecryptWithRSA
     }
     private static void Encrypt()
     {
-        //
         RSACryptoServiceProvider _RSA = new RSACryptoServiceProvider();
 
         //判斷是否有公鑰的存在
