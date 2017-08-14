@@ -30,7 +30,11 @@ public class EncryptAndDecryptWithRSA
     {
         //建立RSA
         CreateRSA();
-        
+        Encrypt();
+        showConsole();
+    }
+    private static void Encrypt()
+    {
         //
         RSACryptoServiceProvider _RSA = new RSACryptoServiceProvider();
 
@@ -44,20 +48,18 @@ public class EncryptAndDecryptWithRSA
             byte[] EncryptStr = _RSA.Encrypt(SourceData, false);
 
             //傳入byte[]準備解密
-            Decry(EncryptStr);
+            Decrypt(EncryptStr);
         }
         else
         {
             _RSA_Model.ExceptCondition = "1";
         }
-        showConsole();
     }
-
     /// <summary>
     /// 資料解密前後比對
     /// </summary>
     /// <param name="EncryptStr"></param>
-    private static void Decry(byte[] EncryptStr)
+    private static void Decrypt(byte[] EncryptStr)
     {
         RSACryptoServiceProvider _RSA = new RSACryptoServiceProvider();
         _RSA.FromXmlString(_RSA_Model.PrivateKey);
