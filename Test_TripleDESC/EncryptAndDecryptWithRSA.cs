@@ -32,6 +32,9 @@ public class EncryptAndDecryptWithRSA
         Encrypt();
         showConsole();
     }
+    /// <summary>
+    /// 資料加密
+    /// </summary>
     private static void Encrypt()
     {
         //建立RSA
