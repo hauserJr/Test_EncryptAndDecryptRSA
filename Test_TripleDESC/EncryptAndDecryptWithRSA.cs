@@ -28,13 +28,13 @@ public class EncryptAndDecryptWithRSA
     /// <param name="args"></param>
     static void Main(string[] args)
     {
-        //建立RSA
         CreateRSA();
         Encrypt();
         showConsole();
     }
     private static void Encrypt()
     {
+        //建立RSA
         RSACryptoServiceProvider _RSA = new RSACryptoServiceProvider();
 
         //判斷是否有公鑰的存在
