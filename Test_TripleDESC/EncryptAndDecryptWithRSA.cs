@@ -29,8 +29,6 @@ public class EncryptAndDecryptWithRSA
     static void Main(string[] args)
     {
         CreateRSA();
-        EnCrypt_HashPrivateKey();
-        DeCrypt_HashPrivateKey();
         Encrypt();     
         showConsole();
 
