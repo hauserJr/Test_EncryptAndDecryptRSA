@@ -29,8 +29,11 @@ public class EncryptAndDecryptWithRSA
     static void Main(string[] args)
     {
         CreateRSA();
-        Encrypt();
+        EnCrypt_HashPrivateKey();
+        DeCrypt_HashPrivateKey();
+        Encrypt();     
         showConsole();
+
     }
     /// <summary>
     /// 資料加密
@@ -54,7 +57,8 @@ public class EncryptAndDecryptWithRSA
         }
         else
         {
-            _RSA_Model.ExceptCondition = "1";
+            _RSA_Model.ExceptCondition = "公鑰不存在";
+            
         }
     }
     /// <summary>
@@ -64,13 +68,19 @@ public class EncryptAndDecryptWithRSA
     private static void Decrypt(byte[] EncryptStr)
     {
         RSACryptoServiceProvider _RSA = new RSACryptoServiceProvider();
-        _RSA.FromXmlString(_RSA_Model.PrivateKey);
-        //將接收到的資料直接解密
-        byte[] DecryptStr = _RSA.Decrypt(EncryptStr, false);
-        //再透過預設編碼反轉字串內容
-        _RSA_Model.DecryptStr_Before = "解密前：" + Encoding.Default.GetString(EncryptStr);
-        _RSA_Model.DecryptStr_After = "解密後：" + Encoding.Default.GetString(DecryptStr);
-
+        try
+        {
+            _RSA.FromXmlString(_RSA_Model.PrivateKey);
+            //將接收到的資料直接解密
+            byte[] DecryptStr = _RSA.Decrypt(EncryptStr, false);
+            //再透過預設編碼反轉字串內容
+            _RSA_Model.DecryptStr_Before = "解密前：" + Encoding.Default.GetString(EncryptStr);
+            _RSA_Model.DecryptStr_After = "解密後：" + Encoding.Default.GetString(DecryptStr);
+        }
+        catch (Exception ex)
+        {
+            _RSA_Model.ExceptCondition = string.Format(@"使用函式EnCrypt_HashPrivateKey()產生的Private Key解密失敗");
+        }
     }
 
     /// <summary>
@@ -80,25 +90,27 @@ public class EncryptAndDecryptWithRSA
     {
         if (string.IsNullOrEmpty(_RSA_Model.ExceptCondition))
         {
-            Console.WriteLine("\n\r"+string.Format("公鑰：{0}",_RSA_Model.PublicKey));
+            Console.WriteLine("\n\r" + string.Format("公鑰：{0}",_RSA_Model.PublicKey));
+            Console.WriteLine("\n\r" + string.Format("公鑰字串長度：{0}", _RSA_Model.PublicKey.Length));
+
             Console.WriteLine("\n\r" + string.Format("私鑰：{0}", _RSA_Model.PrivateKey));
+            Console.WriteLine("\n\r" + string.Format("私鑰字串長度：{0}", _RSA_Model.PrivateKey.Length));
+
             Console.WriteLine("\n\r" + string.Format("{0}",_RSA_Model.DecryptStr_Before));
-            Console.WriteLine("\n\r" + string.Format("{0}", _RSA_Model.DecryptStr_After));
-            
+            Console.WriteLine("\n\r" + string.Format("{0}", _RSA_Model.DecryptStr_After));       
         }
         else
         {
-            Console.WriteLine("\n\r 加解密失敗或者公私鑰並不正確。");
+            Console.WriteLine("\n\r" + string.Format(@"錯誤訊息：{0}",_RSA_Model.ExceptCondition));
         }
         Console.ReadLine();
     }
-
     /// <summary>
     /// DataModal
     /// </summary>
     public class RSA_Model
     {
-        public string PrivateKey { get; set; }
+        public string PrivateKey { get ; set ; }
         public string PublicKey { get; set; }
         public string DecryptStr_Before { get; set; }
         public string DecryptStr_After { get; set; }
